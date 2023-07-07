@@ -11,4 +11,4 @@ fi
 
 echo "Triggering SQAaaS assessment for repository $repo ($branch_msg)"
 
-echo "{}" | python -m json.tool >> $GITHUB_OUTPUT
+echo "report" >> $GITHUB_OUTPUT
