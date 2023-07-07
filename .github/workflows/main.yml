@@ -1,0 +1,16 @@
+on: [push]
+
+jobs:
+  sqaaas_job:
+    runs-on: ubuntu-latest
+    name: Job that triggers SQAaaS platform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: SQAaaS action step
+        uses: ./ # Uses an action in the root directory
+        id: sqaaas
+        with:
+          repo: 'https://github.com/eosc-synergy/sqaaas-api-server'
+      - name: Get the report in JSON format
+        run: echo "The time was ${{ steps.sqaaas.outputs.report }}"
