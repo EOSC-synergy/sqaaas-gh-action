@@ -4,9 +4,9 @@ repo=$1
 branch=$2
 
 if [ -n "$branch" ]; then
-    branch_msg = 'using default branch'
+    branch_msg='using default branch'
 else
-    branch_msg = 'branch: $branch'
+    branch_msg='branch: $branch'
 fi 
 
 echo "Triggering SQAaaS assessment for repository $repo ($branch_msg)"
