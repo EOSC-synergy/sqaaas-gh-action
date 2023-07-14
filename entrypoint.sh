@@ -1,26 +1,26 @@
 #!/bin/sh -l
 
-REPO=$1
-BRANCH=$2
+repo=$1
+branch=$2
 
-CODE_PAYLOAD=$(jq --null-input \
-	           --arg repo "$REPO" \
-	           --arg branch "$BRANCH" \
+code_payload=$(jq --null-input \
+	           --arg repo "$repo" \
+	           --arg branch "$branch" \
 		   '{"repo": $repo, "branch": $branch}')
-REQUEST_PAYLOAD=$(jq --null-input \
-	             --argjson repo_code "$CODE_PAYLOAD" \
+request_payload=$(jq --null-input \
+	             --argjson repo_code "$code_payload" \
 	             '{$repo_code}')
 
-API_ENDPOINT=https://api-staging.sqaaas.eosc-synergy.eu/v1
+api_endpoint=https://api-staging.sqaaas.eosc-synergy.eu/v1
 
-if [ -n "$BRANCH" ]; then
-    BRANCH_MSG='using default branch'
+if [ -n "$branch" ]; then
+    branch_msg='using default branch'
 else
-    BRANCH_MSG="branch: $BRANCH"
+    branch_msg="branch: $branch"
 fi 
-echo "Triggering SQAaaS assessment for repository $REPO ($BRANCH_MSG)"
+echo "Triggering SQAaaS assessment for repository $repo ($branch_msg)"
 
-curl -X POST $API_ENDPOINT/pipeline/assessment --header '"Content-Type: application/json"' -d "$REQUEST_PAYLOAD"
-# --header "Authorization: Bearer ${TOKEN}"
+curl -X POST $api_endpoint/pipeline/assessment --header '"Content-Type: application/json"' -d "$request_payload"
+# --header "Authorization: Bearer ${token}"
 
 # echo "report={}" >> "$GITHUB_OUTPUT"
