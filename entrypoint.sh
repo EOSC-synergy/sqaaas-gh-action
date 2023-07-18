@@ -20,7 +20,13 @@ else
 fi 
 echo "Triggering SQAaaS assessment for repository $repo ($branch_msg)"
 
-curl -X POST $api_endpoint/pipeline/assessment --header '"Content-Type: application/json"' -d "$request_payload"
 # --header "Authorization: Bearer ${token}"
+id=$(curl -X POST $api_endpoint/pipeline/assessment --header '"Content-Type: application/json"' -d "$request_payload" | jq -r '.id')
+echo "Assessment submitted with ID: $id"
+
+run_output=$(curl -X POST $api_endpoint/pipeline/$id/run --header '"Content-Type: application/json"')
+
+status_output=$(curl -X GET $api_endpoint/pipeline/$id/status --header '"Content-Type: application/json"' | jq -r '.build_status')
+echo $status_output
 
 # echo "report={}" >> "$GITHUB_OUTPUT"
