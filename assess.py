@@ -23,7 +23,7 @@ def sqaaas_request(method, path, payload={}):
         response = requests.request(**args)
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
-    except HTTPError as http_err:
+    except requests.HTTPError as http_err:
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:
         print(f'Other error occurred: {err}')
