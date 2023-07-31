@@ -54,14 +54,13 @@ def sqaaas_request(method, path, payload={}):
         sys.exit(_error_code)
 
 
-def main():
-    pipeline_id = '9449025c-f9d8-4235-a040-e9a2b2184713'
-    action = 'status'
-    
-    keep_trying = True
-    wait_period = 5
-    build_url, build_status = (None, None)
+def main(repo, branch=None):
+    pipeline_id = None
+    action = 'create'
     sqaaas_report_json = {}
+    
+    wait_period = 5
+    keep_trying = True
     while keep_trying:
         print(f'Performing {action} on pipeline {pipeline_id}')
         if action in ['create']:
@@ -92,4 +91,5 @@ def main():
 
 
 if __name__ == "__main__":
-   main()
+    script, repo, branch = sys.argv
+    main(repo, branch)
