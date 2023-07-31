@@ -77,7 +77,6 @@ def main(repo, branch=None):
             response_data = response.json()
             build_status = response_data['build_status']
             if build_status in COMPLETED_STATUS:
-                # keep_trying = False
                 action = 'output'
             else:
                 time.sleep(wait_period)
