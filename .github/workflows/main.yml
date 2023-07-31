@@ -11,6 +11,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: sqaaas
         with:
-          repo: 'https://github.com/eosc-synergy/sqaaas-api-server'
+          repo: 'https://github.com/eosc-synergy/sqaaas-api-spec'
+          branch: 'master'
       - name: Get the report in JSON format
         run: echo "The time was ${{ steps.sqaaas.outputs.report }}"
