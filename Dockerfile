@@ -1,7 +1,7 @@
 # Container image that runs your code
 FROM python:3.12.0b3-alpine3.18
 
-RUN apk add --no-cache jq
+RUN pip install requests
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
