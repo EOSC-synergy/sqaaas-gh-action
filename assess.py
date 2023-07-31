@@ -59,6 +59,7 @@ def main():
     action = 'status'
     
     keep_trying = True
+    wait_period = 5
     build_url, build_status = (None, None)
     sqaaas_report_json = {}
     while keep_trying:
@@ -75,6 +76,9 @@ def main():
             if build_status in COMPLETED_STATUS:
                 # keep_trying = False
                 action = 'output'
+            else:
+                time.sleep(wait_period)
+                print(f'Current status is {build_status}. Waiting {wait_period} seconds..')
         elif action in ['output']:
             keep_trying = False
             response = sqaaas_request('get', f'pipeline/assessment/{pipeline_id}/{action}')
