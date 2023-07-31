@@ -69,6 +69,10 @@ def main():
             response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
             response_data = response.json()
             pipeline_id = response_data['id']
+            action = 'run'
+        elif action in ['run']:
+            response = sqaaas_request('post', f'pipeline/{pipeline_id}/{action}')
+            action = 'status'
         elif action in ['status']:
             response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
             response_data = response.json()
