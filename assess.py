@@ -63,7 +63,7 @@ def main():
     build_url, build_status = (None, None)
     sqaaas_report_json = {}
     while keep_trying:
-        print(f'Checking {action} of pipeline {pipeline_id}')
+        print(f'Performing {action} on pipeline {pipeline_id}')
         if action in ['create']:
             payload = json.loads(create_payload(repo, branch))
             response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
