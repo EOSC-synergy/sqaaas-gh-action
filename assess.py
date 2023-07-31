@@ -1,11 +1,26 @@
+import json
 import requests
 import sys
+import time
 
 
 COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
 # FIXME: add as CLI argument
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1" 
+
+
+def create_payload(repo, branch=None):
+    return json.dumps({
+        'repo_code': {
+            'repo': repo,
+            'branch': branch
+        },
+        'repo_docs': {
+            'repo': repo,
+            'branch': branch
+        }
+    })
 
 
 def sqaaas_request(method, path, payload={}):
@@ -48,7 +63,12 @@ def main():
     sqaaas_report_json = {}
     while keep_trying:
         print(f'Checking {action} of pipeline {pipeline_id}')
-        if action in ['status']:
+        if action in ['create']:
+            payload = json.loads(create_payload(repo, branch))
+            response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
+            response_data = response.json()
+            pipeline_id = response_data['id']
+        elif action in ['status']:
             response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
             response_data = response.json()
             build_status = response_data['build_status']
