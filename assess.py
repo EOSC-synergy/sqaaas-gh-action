@@ -1,4 +1,5 @@
 import json
+import logging
 import requests
 import sys
 import time
@@ -8,6 +9,9 @@ COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
 # FIXME: add as CLI argument
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1" 
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('sqaaas-gh-action')
 
 
 def create_payload(repo, branch=None):
@@ -42,13 +46,13 @@ def sqaaas_request(method, path, payload={}):
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
     except requests.HTTPError as http_err:
-        print(f'HTTP error occurred: {http_err}')
+        logger.info(f'HTTP error occurred: {http_err}')
         _error_code = 101
     except Exception as err:
-        print(f'Other error occurred: {err}')
+        logger.info(f'Other error occurred: {err}')
         _error_code = 102
     else:
-        print('Success!')
+        logger.info('Success!')
         return response
     if _error_code:
         sys.exit(_error_code)
@@ -62,7 +66,7 @@ def main(repo, branch=None):
     wait_period = 5
     keep_trying = True
     while keep_trying:
-        print(f'Performing {action} on pipeline {pipeline_id}')
+        logger.info(f'Performing {action} on pipeline {pipeline_id}')
         if action in ['create']:
             payload = json.loads(create_payload(repo, branch))
             response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
@@ -78,9 +82,10 @@ def main(repo, branch=None):
             build_status = response_data['build_status']
             if build_status in COMPLETED_STATUS:
                 action = 'output'
+                logging.info(f'Pipeline {pipeline_id} finished with status {build_status}')
             else:
                 time.sleep(wait_period)
-                print(f'Current status is {build_status}. Waiting {wait_period} seconds..')
+                logger.info(f'Current status is {build_status}. Waiting {wait_period} seconds..')
         elif action in ['output']:
             keep_trying = False
             response = sqaaas_request('get', f'pipeline/assessment/{pipeline_id}/{action}')
