@@ -19,8 +19,9 @@ The branch to fetch from the previous repository name. If a branch is not provid
 JSON payload containing the full QA report.
 
 ## Example usage
-
+```yaml
 uses: actions/sqaaas-docker-action@v1
 with:
   repo: 'https://github.com/eosc-synergy/sqaaas-api-server'
   branch: 'master'
+```
