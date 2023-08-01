@@ -86,7 +86,7 @@ def main(repo, branch=None):
             response = sqaaas_request('get', f'pipeline/assessment/{pipeline_id}/{action}')
             sqaaas_report_json = response.json()
 
-    print(sqaaas_report_json)
+    print(json.dumps(sqaaas_report_json))
 
 
 if __name__ == "__main__":
