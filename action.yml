@@ -1,5 +1,6 @@
 name: 'SQAaaS source code assessment'
 description: 'Trigger the source code assessment in SQAaaS'
+author: 'Pablo Orviz <orviz@ifca.unican.es>'
 inputs:
   repo:
     description: URL of the repository to assess
