@@ -22,11 +22,11 @@ SUMMARY_TEMPLATE_TABLE= """
 | {{ ":heavy_check_mark:" if result.status else ":red_circle:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
 {%- endfor -%}
 """
-SUMMARY_TEMPLATE = """### SQAaaS summary :clipboard:
+SUMMARY_TEMPLATE = """## SQAaaS summary :bellhop_bell:
 
 {0}
 
-View full report at {1}
+:clipboard: _View full report at_ ___{1}___
 """
 
 logging.basicConfig(level=logging.INFO)
