@@ -120,9 +120,15 @@ def get_table(sqaaas_report_json):
     for criterion, criterion_data in sqaaas_report_json['report'].items():
         for subcriterion, subcriterion_data in criterion_data['subcriteria'].items():
             for evidence in subcriterion_data['evidence']:
+                # Fix message
+                msg = evidence['message']
+                msg = msg.replace('<', '_')
+                msg = msg.replace('>', '_')
+                msg = msg.replace('\n', '<br />')
+                # Generate entry for result
                 assessment_results.append({
                     'status': evidence['valid'],
-                    'assertion': evidence['message'].replace('\n', '<br />'),
+                    'assertion': msg,
                     'subcriterion': subcriterion,
                     'criterion': criterion
                 })
