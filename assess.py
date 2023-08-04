@@ -145,7 +145,7 @@ def main(repo, branch=None):
         logger.info(table)
         report_url = sqaaas_report_json['meta']['report_json_url']
         logger.info(SUMMARY_TEMPLATE.format(table, report_url))
-        write_summary(report_url)
+        write_summary(table, report_url)
     else:
         logger.info('Could not get report data from SQAaaS platform')
 
