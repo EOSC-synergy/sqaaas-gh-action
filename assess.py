@@ -19,7 +19,7 @@ SUMMARY_TEMPLATE_TABLE= """
 | Result | Assertion | Subcriterion ID | Criterion ID |
 | ------ | --------- | --------------- | ------------ |
 {%- for result in results -%}
-| {{ result.status }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
+| {{ ":heavy_check_mark:" if result.status else ":red_circle:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
 {%- endfor -%}
 """
 SUMMARY_TEMPLATE = """### SQAaaS summary :clipboard:
