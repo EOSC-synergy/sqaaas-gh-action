@@ -3,6 +3,8 @@
 repo=$1
 branch=$2
 
-report=$(python assess.py $repo $branch)
+report_url=$(python assess.py $repo $branch | /usr/bin/jq -r '.meta.report_json_url')
 
-echo "report=$report" >> "$GITHUB_OUTPUT"
+echo "### SQAaaS summary :clipboard:" >> $GITHUB_STEP_SUMMARY
+echo "" >> $GITHUB_STEP_SUMMARY
+echo "- Quality assessment report (JSON): $report_url" >> $GITHUB_STEP_SUMMARY
