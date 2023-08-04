@@ -85,27 +85,27 @@ def run_assessment(repo, branch=None):
     wait_period = 5
     keep_trying = True
     while keep_trying:
-        # logger.info(f'Performing {action} on pipeline {pipeline_id}')
-        # if action in ['create']:
-        #     payload = json.loads(create_payload(repo, branch))
-        #     response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
-        #     response_data = response.json()
-        #     pipeline_id = response_data['id']
-        #     action = 'run'
-        # elif action in ['run']:
-        #     response = sqaaas_request('post', f'pipeline/{pipeline_id}/{action}')
-        #     action = 'status'
-        # elif action in ['status']:
-        #     response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
-        #     response_data = response.json()
-        #     build_status = response_data['build_status']
-        #     if build_status in COMPLETED_STATUS:
-        #         action = 'output'
-        #         logging.info(f'Pipeline {pipeline_id} finished with status {build_status}')
-        #     else:
-        #         time.sleep(wait_period)
-        #         logger.info(f'Current status is {build_status}. Waiting {wait_period} seconds..')
-        # elif action in ['output']:
+        logger.info(f'Performing {action} on pipeline {pipeline_id}')
+        if action in ['create']:
+            payload = json.loads(create_payload(repo, branch))
+            response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
+            response_data = response.json()
+            pipeline_id = response_data['id']
+            action = 'run'
+        elif action in ['run']:
+            response = sqaaas_request('post', f'pipeline/{pipeline_id}/{action}')
+            action = 'status'
+        elif action in ['status']:
+            response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
+            response_data = response.json()
+            build_status = response_data['build_status']
+            if build_status in COMPLETED_STATUS:
+                action = 'output'
+                logging.info(f'Pipeline {pipeline_id} finished with status {build_status}')
+            else:
+                time.sleep(wait_period)
+                logger.info(f'Current status is {build_status}. Waiting {wait_period} seconds..')
+        elif action in ['output']:
             pipeline_id = '0c066a45-f2ab-46d7-b78f-308bb457ae82'
             action = 'output'
             keep_trying = False
