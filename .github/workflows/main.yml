@@ -17,5 +17,8 @@ jobs:
         with:
           repo: 'https://github.com/eosc-synergy/sqaaas-api-spec'
           branch: 'master'
-      - name: Get the report in JSON format
-        run: echo "The time was ${{ steps.sqaaas.outputs.report }}"
+      # - name: Write to workflow job summary
+      #   run: |
+      #     # SUMMARY=$'# Testing Job Summary\n## Second Level Heading\nHello GitHub'
+      #     # echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+      #     cat $GITHUB_STEP_SUMMARY

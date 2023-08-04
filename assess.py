@@ -4,6 +4,7 @@
 
 import json
 import logging
+import os
 import requests
 import sys
 import time
@@ -62,7 +63,7 @@ def sqaaas_request(method, path, payload={}):
         sys.exit(_error_code)
 
 
-def main(repo, branch=None):
+def run_assessment(repo, branch=None):
     pipeline_id = None
     action = 'create'
     sqaaas_report_json = {}
@@ -70,32 +71,48 @@ def main(repo, branch=None):
     wait_period = 5
     keep_trying = True
     while keep_trying:
-        logger.info(f'Performing {action} on pipeline {pipeline_id}')
-        if action in ['create']:
-            payload = json.loads(create_payload(repo, branch))
-            response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
-            response_data = response.json()
-            pipeline_id = response_data['id']
-            action = 'run'
-        elif action in ['run']:
-            response = sqaaas_request('post', f'pipeline/{pipeline_id}/{action}')
-            action = 'status'
-        elif action in ['status']:
-            response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
-            response_data = response.json()
-            build_status = response_data['build_status']
-            if build_status in COMPLETED_STATUS:
-                action = 'output'
-                logging.info(f'Pipeline {pipeline_id} finished with status {build_status}')
-            else:
-                time.sleep(wait_period)
-                logger.info(f'Current status is {build_status}. Waiting {wait_period} seconds..')
-        elif action in ['output']:
+        # logger.info(f'Performing {action} on pipeline {pipeline_id}')
+        # if action in ['create']:
+        #     payload = json.loads(create_payload(repo, branch))
+        #     response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
+        #     response_data = response.json()
+        #     pipeline_id = response_data['id']
+        #     action = 'run'
+        # elif action in ['run']:
+        #     response = sqaaas_request('post', f'pipeline/{pipeline_id}/{action}')
+        #     action = 'status'
+        # elif action in ['status']:
+        #     response = sqaaas_request('get', f'pipeline/{pipeline_id}/{action}')
+        #     response_data = response.json()
+        #     build_status = response_data['build_status']
+        #     if build_status in COMPLETED_STATUS:
+        #         action = 'output'
+        #         logging.info(f'Pipeline {pipeline_id} finished with status {build_status}')
+        #     else:
+        #         time.sleep(wait_period)
+        #         logger.info(f'Current status is {build_status}. Waiting {wait_period} seconds..')
+        # elif action in ['output']:
+            pipeline_id = '0c066a45-f2ab-46d7-b78f-308bb457ae82'
+            action = 'output'
             keep_trying = False
             response = sqaaas_request('get', f'pipeline/assessment/{pipeline_id}/{action}')
             sqaaas_report_json = response.json()
 
-    print(json.dumps(sqaaas_report_json))
+    return sqaaas_report_json
+
+
+def write_summary(json_report):
+    if "GITHUB_STEP_SUMMARY" in os.environ :
+        logger.info('Setting GITHUB_STEP_SUMMARY environment variable')
+        with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f :
+            # print(markdownSummaryTemplate.format(cov, branches), file=f)
+            print("### SQAaaS report ###", file=f)
+
+
+def main(repo, branch=None):
+    # Get assessment report (JSON format)
+    sqaaas_report_json = run_assessment(repo, branch=None)
+    write_summary(sqaaas_report_json)
 
 
 if __name__ == "__main__":
