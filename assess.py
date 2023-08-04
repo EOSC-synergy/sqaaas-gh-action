@@ -14,6 +14,9 @@ COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
 # FIXME: add as CLI argument
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1" 
+SUMMARY_TEMPLATE = """### SQAaaS summary :clipboard:
+- Quality assessment report (JSON): {0}
+"""
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('sqaaas-gh-action')
@@ -101,18 +104,21 @@ def run_assessment(repo, branch=None):
     return sqaaas_report_json
 
 
-def write_summary(json_report):
+def write_summary(*args):
     if "GITHUB_STEP_SUMMARY" in os.environ :
         logger.info('Setting GITHUB_STEP_SUMMARY environment variable')
         with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f :
-            # print(markdownSummaryTemplate.format(cov, branches), file=f)
-            print("### SQAaaS report ###", file=f)
+            print(SUMMARY_TEMPLATE.format(), file=f)
 
 
 def main(repo, branch=None):
     # Get assessment report (JSON format)
     sqaaas_report_json = run_assessment(repo, branch=None)
-    write_summary(sqaaas_report_json)
+    if sqaaas_report_json:
+        report_url = sqaaas_report_json['meta']['report_json_url']
+        write_summary(report_url)
+    else:
+        logger.error('Could not get report data from SQAaaS platform')
 
 
 if __name__ == "__main__":
