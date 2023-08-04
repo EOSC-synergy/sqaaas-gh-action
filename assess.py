@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
+import jinja2
 import json
 import logging
 import os
@@ -13,9 +14,19 @@ import time
 COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
 # FIXME: add as CLI argument
-ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1" 
+ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1"
+SUMMARY_TEMPLATE_TABLE= """
+| Result | Assertion | Subcriterion ID | Criterion ID |
+| ------ | --------- | --------------- | ------------ |
+{%- for result in results -%}
+| {{ result.status }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
+{%- endfor -%}
+"""
 SUMMARY_TEMPLATE = """### SQAaaS summary :clipboard:
-- Quality assessment report (JSON): {0}
+
+{0}
+
+View full report at {1}
 """
 
 logging.basicConfig(level=logging.INFO)
@@ -70,7 +81,7 @@ def run_assessment(repo, branch=None):
     pipeline_id = None
     action = 'create'
     sqaaas_report_json = {}
-    
+
     wait_period = 5
     keep_trying = True
     while keep_trying:
@@ -104,21 +115,39 @@ def run_assessment(repo, branch=None):
     return sqaaas_report_json
 
 
+def get_table(sqaaas_report_json):
+    assessment_results = []
+    for criterion, criterion_data in sqaaas_report_json['report'].items():
+        for subcriterion, subcriterion_data in criterion_data['subcriteria'].items():
+            for evidence in subcriterion_data['evidence']:
+                assessment_results.append({
+                    'status': evidence['valid'],
+                    'assertion': evidence['message'],
+                    'subcriterion': subcriterion,
+                    'criterion': criterion
+                })
+    template = jinja2.Environment().from_string(SUMMARY_TEMPLATE_TABLE)
+    return template.render(results=assessment_results)
+
+
 def write_summary(*args):
     if "GITHUB_STEP_SUMMARY" in os.environ :
         logger.info('Setting GITHUB_STEP_SUMMARY environment variable')
         with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f :
-            print(SUMMARY_TEMPLATE.format(), file=f)
+            print(SUMMARY_TEMPLATE.format(*args), file=f)
 
 
 def main(repo, branch=None):
     # Get assessment report (JSON format)
     sqaaas_report_json = run_assessment(repo, branch=None)
     if sqaaas_report_json:
+        table = get_table(sqaaas_report_json)
+        logger.info(table)
         report_url = sqaaas_report_json['meta']['report_json_url']
+        logger.info(SUMMARY_TEMPLATE.format(table, report_url))
         write_summary(report_url)
     else:
-        logger.error('Could not get report data from SQAaaS platform')
+        logger.info('Could not get report data from SQAaaS platform')
 
 
 if __name__ == "__main__":
