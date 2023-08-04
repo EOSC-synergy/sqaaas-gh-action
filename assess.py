@@ -18,7 +18,7 @@ ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1"
 SUMMARY_TEMPLATE_TABLE= """
 | Result | Assertion | Subcriterion ID | Criterion ID |
 | ------ | --------- | --------------- | ------------ |
-{%- for result in results -%}
+{%- for result in results %}
 | {{ ":heavy_check_mark:" if result.status else ":red_circle:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
 {%- endfor -%}
 """
