@@ -35,4 +35,4 @@ with:
 ## Report summary
 
 This action provides a summary of the SQAaaS assessment report, as well as the link to the complete version of it:
-![GH action's summary report](imgs/summary_report.png)
+![GH action's summary report](./imgs/summary_report.png)
