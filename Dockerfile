@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Copyright contributors to the Software Quality Assurance as a Service (SQAaaS) project.
+#
+# SPDX-License-Identifier: GPL-3.0-only
+
 # Container image that runs your code
 FROM python:3.12.0b3-alpine3.18
 

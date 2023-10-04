@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Copyright contributors to the Software Quality Assurance as a Service (SQAaaS) project.
+#
+# SPDX-License-Identifier: GPL-3.0-only
+
 name: 'SQAaaS source code assessment'
 description: 'Trigger the source code assessment in SQAaaS'
 author: 'Pablo Orviz <orviz@ifca.unican.es>'

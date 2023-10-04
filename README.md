@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Copyright contributors to the Software Quality Assurance as a Service (SQAaaS) project.
+
+SPDX-License-Identifier: GPL-3.0-only
+-->
+
 # SQAaaS docker action
 
 This action triggers the quality assessment of a source code repository.
