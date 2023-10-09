@@ -17,8 +17,3 @@ jobs:
         with:
           repo: 'https://github.com/eosc-synergy/sqaaas-api-spec'
           branch: 'master'
-      # - name: Write to workflow job summary
-      #   run: |
-      #     # SUMMARY=$'# Testing Job Summary\n## Second Level Heading\nHello GitHub'
-      #     # echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
-      #     cat $GITHUB_STEP_SUMMARY
