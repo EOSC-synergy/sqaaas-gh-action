@@ -174,12 +174,16 @@ def get_summary(sqaaas_report_json):
         'badge_shields_md': badge_shields_md,
         'missing': missing
     }
+    full_report_url = '/'.join([
+        'https://sqaaas.eosc-synergy.eu/#/full-assessment/report',
+        sqaaas_report_json['meta']['report_json_url']
+    ])
     # Render & return report
     template = jinja2.Environment().from_string(SUMMARY_TEMPLATE)
     return template.render(
         report_results=report_results,
         badge_results=badge_results,
-        report_url=sqaaas_report_json['meta']['report_json_url']
+        report_url=full_report_url
     )
 
 
