@@ -50,7 +50,7 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- endif %}
  - Missing quality criteria for next level badge: __{{ badge_results.missing }}__
 
-### :clipboard: _View full report at_ ___{{ report_url }}___
+### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
 
 
