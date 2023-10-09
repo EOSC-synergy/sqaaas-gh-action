@@ -35,7 +35,6 @@ BADGE_SHARE_MARKDOWN = {
 SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 
 ### Quality criteria summary
->>>>>>> 663874d (Report now includes badge results)
 | Result | Assertion | Subcriterion ID | Criterion ID |
 | ------ | --------- | --------------- | ------------ |
 {%- for result in report_results %}
