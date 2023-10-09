@@ -17,5 +17,3 @@ jobs:
         with:
           repo: 'https://github.com/eosc-synergy/sqaaas-api-spec'
           branch: 'master'
-      - name: Get the report in JSON format
-        run: echo "The time was ${{ steps.sqaaas.outputs.report }}"
