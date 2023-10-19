@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: Copyright contributors to the Software Quality Assurance
 SPDX-License-Identifier: GPL-3.0-only
 -->
 
-# SQAaaS docker action
+# SQAaaS assessment action
 
 This action triggers the quality assessment of a source code repository.
 
@@ -26,7 +26,7 @@ JSON payload containing the full QA report.
 
 ## Example usage
 ```yaml
-uses: actions/sqaaas-docker-action@v1
+uses: actions/sqaaas-assessment-action@v1
 with:
   repo: 'https://github.com/eosc-synergy/sqaaas-api-server'
   branch: 'master'
