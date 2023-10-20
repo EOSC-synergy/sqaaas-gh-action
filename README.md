@@ -26,7 +26,7 @@ JSON payload containing the full QA report.
 
 ## Example usage
 ```yaml
-uses: actions/sqaaas-assessment-action@v1
+uses: eosc-synergy/sqaaas-assessment-action@v1
 with:
   repo: 'https://github.com/eosc-synergy/sqaaas-api-server'
   branch: 'master'
