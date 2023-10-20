@@ -14,4 +14,4 @@ branch=$2
 # echo "" >> $GITHUB_STEP_SUMMARY
 # echo "- Quality assessment report (JSON): $report_url" >> $GITHUB_STEP_SUMMARY
 
-python assess.py $repo $branch
+python /usr/bin/assess.py $repo $branch
