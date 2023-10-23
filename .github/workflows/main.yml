@@ -15,5 +15,5 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: sqaaas
         with:
-          repo: 'https://github.com/eosc-synergy/sqaaas-api-spec'
-          branch: 'master'
+          repo: 'https://github.com/interTwin-eu/itwinai'
+          branch: 'sqaaas-code'

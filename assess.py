@@ -154,19 +154,23 @@ def get_summary(sqaaas_report_json):
                 })
     # Collect quality badge data
     badge_software = sqaaas_report_json['badge']['software']
-    assertion = badge_software['data']['openBadgeId']
     badge_sqaaas_md, badge_shields_md, missing = (None, None, None)
-    for badgeclass in ['gold', 'silver', 'bronze']:
-        missing = badge_software['criteria'][badgeclass]['missing']
-        badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
-        if not missing:
-            badge_sqaaas_md = badge_share_data['sqaaas'].format(
-                assertion=assertion
-            )
-            badge_shields_md = badge_share_data['shields'].format(
-                assertion=assertion
-            )
-            break
+    try:
+        assertion = badge_software['data']['openBadgeId']
+    except KeyError:
+        assertion = None
+    else:
+        for badgeclass in ['gold', 'silver', 'bronze']:
+            missing = badge_software['criteria'][badgeclass]['missing']
+            badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
+            if not missing:
+                badge_sqaaas_md = badge_share_data['sqaaas'].format(
+                    assertion=assertion
+                )
+                badge_shields_md = badge_share_data['shields'].format(
+                    assertion=assertion
+                )
+                break
     badge_results = {
         'assertion': assertion,
         'badge_sqaaas_md': badge_sqaaas_md,
