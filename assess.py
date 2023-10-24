@@ -16,6 +16,23 @@ logger = logging.getLogger('sqaaas-gh-action')
 
 COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
+LINKS_TO_STANDARD = {
+    'QC.Acc': 'https://indigo-dc.github.io/sqa-baseline/#code-accessibility-qc.acc',
+    'QC.Wor': 'https://indigo-dc.github.io/sqa-baseline/#code-workflow-qc.wor',
+    'QC.Man': 'https://indigo-dc.github.io/sqa-baseline/#code-management-qc.man',
+    'QC.Rev': 'https://indigo-dc.github.io/sqa-baseline/#code-review-qc.rev',
+    'QC.Ver': 'https://indigo-dc.github.io/sqa-baseline/#semantic-versioning-qc.ver',
+    'QC.Lic': 'https://indigo-dc.github.io/sqa-baseline/#licensing-qc.lic',
+    'QC.Met': 'https://indigo-dc.github.io/sqa-baseline/#code-metadata-qc.met',
+    'QC.Doc': 'https://indigo-dc.github.io/sqa-baseline/#documentation-qc.doc',
+    'QC.Sty': 'https://indigo-dc.github.io/sqa-baseline/#code-style-qc.sty',
+    'QC.Uni': 'https://indigo-dc.github.io/sqa-baseline/#unit-testing-qc.uni',
+    'QC.Har': 'https://indigo-dc.github.io/sqa-baseline/#test-harness-qc.har',
+    'QC.Tdd': 'https://indigo-dc.github.io/sqa-baseline/#test-driven-development-qc.tdd',
+    'QC.Sec': 'https://indigo-dc.github.io/sqa-baseline/#security-qc.sec',
+    'QC.Del': 'https://indigo-dc.github.io/sqa-baseline/#automated-delivery-qc.del',
+    'QC.Dep': 'https://indigo-dc.github.io/sqa-baseline/#automated-deployment-qc.dep'
+}
 # FIXME: add as CLI argument
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1"
 BADGE_SHARE_MARKDOWN = {
@@ -48,7 +65,7 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- else %}
  - _No SQAaaS badge has been obtained_
 {%- endif %}
- - Missing quality criteria for next level badge: __{{ badge_results.to_fulfill }}__
+ - Missing quality criteria for next level badge: {% for criterion_to_fulfill in badge_results.to_fulfill %}[`{{ criterion_to_fulfill }}`]({{ links_to_standard[criterion_to_fulfill] }}) {% endfor %}
 
 ### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
@@ -184,11 +201,12 @@ def get_summary(sqaaas_report_json):
                     'Missing criteria found for %s badge, going one '
                     'level down' % badgeclass
                 )
+
     badge_results = {
         'assertion': assertion,
         'badge_sqaaas_md': badge_sqaaas_md,
         'badge_shields_md': badge_shields_md,
-        'to_fulfill': to_fulfill
+        'to_fulfill': to_fulfill,
     }
     full_report_url = '/'.join([
         'https://sqaaas.eosc-synergy.eu/#/full-assessment/report',
@@ -199,7 +217,8 @@ def get_summary(sqaaas_report_json):
     return template.render(
         report_results=report_results,
         badge_results=badge_results,
-        report_url=full_report_url
+        report_url=full_report_url,
+        links_to_standard=LINKS_TO_STANDARD
     )
 
 
