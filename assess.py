@@ -48,7 +48,7 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- else %}
  - _No SQAaaS badge has been obtained_
 {%- endif %}
- - Missing quality criteria for next level badge: __{{ badge_results.missing }}__
+ - Missing quality criteria for next level badge: __{{ badge_results.to_fulfill }}__
 
 ### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
@@ -160,22 +160,35 @@ def get_summary(sqaaas_report_json):
     except KeyError:
         assertion = None
     else:
+        to_fulfill = []
         for badgeclass in ['gold', 'silver', 'bronze']:
             missing = badge_software['criteria'][badgeclass]['missing']
-            badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
             if not missing:
+                logger.debug(
+                    'Not missing criteria: achieved %s badge' % badgeclass
+                )
+                badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
                 badge_sqaaas_md = badge_share_data['sqaaas'].format(
                     assertion=assertion
                 )
                 badge_shields_md = badge_share_data['shields'].format(
                     assertion=assertion
                 )
+                to_fulfill = badge_software['criteria'][badgeclass]['to_fulfill']
+                logger.debug(
+                    'Missing criteria for next-level badge: %s' % to_fulfill
+                )
                 break
+            else:
+                logger.debug(
+                    'Missing criteria found for %s badge, going one '
+                    'level down' % badgeclass
+                )
     badge_results = {
         'assertion': assertion,
         'badge_sqaaas_md': badge_sqaaas_md,
         'badge_shields_md': badge_shields_md,
-        'missing': missing
+        'to_fulfill': to_fulfill
     }
     full_report_url = '/'.join([
         'https://sqaaas.eosc-synergy.eu/#/full-assessment/report',
