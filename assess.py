@@ -55,7 +55,7 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 | Result | Assertion | Subcriterion ID | Criterion ID |
 | ------ | --------- | --------------- | ------------ |
 {%- for result in report_results %}
-| {{ ":heavy_check_mark:" if result.status else ":red_circle:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
+| {{ ":heavy_check_mark:" if result.status else ":heavy_multiplication_x:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
 {%- endfor %}
 
 ### Quality badge
@@ -65,7 +65,9 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- else %}
  - _No SQAaaS badge has been obtained_
 {%- endif %}
- - Missing quality criteria for next level badge: {% for criterion_to_fulfill in badge_results.to_fulfill %}[`{{ criterion_to_fulfill }}`]({{ links_to_standard[criterion_to_fulfill] }}) {% endfor %}
+{%- if badge_results.next_level_badge %}
+ - Missing quality criteria for next level badge ({{ badge_results.next_level_badge }}): {% for criterion_to_fulfill in badge_results.to_fulfill %}[`{{ criterion_to_fulfill }}`]({{ links_to_standard[criterion_to_fulfill] }}) {% endfor %}
+{%- endif %}
 
 ### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
@@ -178,6 +180,7 @@ def get_summary(sqaaas_report_json):
         assertion = None
     else:
         to_fulfill = []
+        next_level_badge = ''
         for badgeclass in ['gold', 'silver', 'bronze']:
             missing = badge_software['criteria'][badgeclass]['missing']
             if not missing:
@@ -191,15 +194,13 @@ def get_summary(sqaaas_report_json):
                 badge_shields_md = badge_share_data['shields'].format(
                     assertion=assertion
                 )
-                to_fulfill = badge_software['criteria'][badgeclass]['to_fulfill']
-                logger.debug(
-                    'Missing criteria for next-level badge: %s' % to_fulfill
-                )
                 break
             else:
+                to_fulfill = missing
+                next_level_badge = badgeclass
                 logger.debug(
-                    'Missing criteria found for %s badge, going one '
-                    'level down' % badgeclass
+                    'Missing criteria found (%s) for %s badge, going one '
+                    'level down' % (to_fulfill, badgeclass)
                 )
 
     badge_results = {
@@ -207,6 +208,7 @@ def get_summary(sqaaas_report_json):
         'badge_sqaaas_md': badge_sqaaas_md,
         'badge_shields_md': badge_shields_md,
         'to_fulfill': to_fulfill,
+        'next_level_badge': next_level_badge
     }
     full_report_url = '/'.join([
         'https://sqaaas.eosc-synergy.eu/#/full-assessment/report',
