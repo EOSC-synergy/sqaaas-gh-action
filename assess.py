@@ -65,7 +65,9 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- else %}
  - _No SQAaaS badge has been obtained_
 {%- endif %}
+{%- if badge_results.next_level_badge %}
  - Missing quality criteria for next level badge ({{ badge_results.next_level_badge }}): {% for criterion_to_fulfill in badge_results.to_fulfill %}[`{{ criterion_to_fulfill }}`]({{ links_to_standard[criterion_to_fulfill] }}) {% endfor %}
+{%- endif %}
 
 ### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
