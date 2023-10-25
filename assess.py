@@ -191,22 +191,19 @@ def get_summary(sqaaas_report_json):
                 badge_shields_md = badge_share_data['shields'].format(
                     assertion=assertion
                 )
-                to_fulfill = badge_software['criteria'][badgeclass]['to_fulfill']
-                logger.debug(
-                    'Missing criteria for next-level badge: %s' % to_fulfill
-                )
                 break
             else:
+                to_fulfill = missing
                 logger.debug(
-                    'Missing criteria found for %s badge, going one '
-                    'level down' % badgeclass
+                    'Missing criteria found (%s) for %s badge, going one '
+                    'level down' % (to_fulfill, badgeclass)
                 )
 
     badge_results = {
         'assertion': assertion,
         'badge_sqaaas_md': badge_sqaaas_md,
         'badge_shields_md': badge_shields_md,
-        'to_fulfill': to_fulfill,
+        'to_fulfill': to_fulfill
     }
     full_report_url = '/'.join([
         'https://sqaaas.eosc-synergy.eu/#/full-assessment/report',
