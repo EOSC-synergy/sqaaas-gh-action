@@ -55,7 +55,7 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 | Result | Assertion | Subcriterion ID | Criterion ID |
 | ------ | --------- | --------------- | ------------ |
 {%- for result in report_results %}
-| {{ ":heavy_check_mark:" if result.status else ":red_circle:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
+| {{ ":heavy_check_mark:" if result.status else ":heavy_multiplication_x:" }} | {{ result.assertion }} | {{ result.subcriterion }} | {{ result.criterion }} |
 {%- endfor %}
 
 ### Quality badge
