@@ -242,6 +242,8 @@ def get_repo_data():
     branch = os.environ.get('INPUT_BRANCH', None)
     if not repo:
         repo = os.environ.get('GITHUB_REPOSITORY', None)
+        if repo:
+            repo = os.path.join('https://github.com', repo)
     if not branch:
         branch = os.environ.get('GITHUB_REF_NAME', None)
 
