@@ -237,7 +237,7 @@ def write_summary(sqaaas_report_json):
     return summary
 
 
-def get_repo_data(**kwargs):
+def get_repo_data():
     repo = os.environ.get('INPUT_REPO', None)
     branch = os.environ.get('INPUT_BRANCH', None)
     if not repo:
@@ -248,8 +248,8 @@ def get_repo_data(**kwargs):
     return (repo, branch)
 
 
-def main(**kwargs):
-    repo, branch = get_repo_data(**kwargs)
+def main():
+    repo, branch = get_repo_data()
     if not repo:
         logger.error(
             'Repository URL for the assessment not defined: cannot continue'
@@ -272,5 +272,4 @@ def main(**kwargs):
 
 
 if __name__ == "__main__":
-    script, repo, branch = sys.argv
-    main(repo=repo, branch=branch)
+    main()
