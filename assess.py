@@ -10,6 +10,8 @@ import requests
 import sys
 import time
 
+from urllib.request import urlretrieve
+
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('sqaaas-gh-action')
@@ -71,6 +73,18 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 
 ### :clipboard: __View full report in the [SQAaaS platform]({{ report_url }})__
 """
+
+
+def dowload_badge(badgeclass):
+    download_badge_map = {
+        'bronze': 'https://github.com/EOSC-synergy/SQAaaS/raw/master/.badges/sqaaas_software-bronze-e6ae77.svg',
+        'silver': 'https://github.com/EOSC-synergy/SQAaaS/raw/master/.badges/sqaaas_software-silver-lightgrey.svg',
+        'gold': 'https://github.com/EOSC-synergy/SQAaaS/raw/master/.badges/sqaaas_software-gold-yellow.svg'
+    }
+    filename = os.path.basename(download_badge_map[badgeclass])
+    urlretrieve(url, filename)
+
+    return filename
 
 
 def create_payload(repo, branch=None):
