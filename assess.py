@@ -255,6 +255,10 @@ def main(**kwargs):
             'Repository URL for the assessment not defined: cannot continue'
         )
         sys.exit(1)
+    else:
+        logger.info(
+            'Trigger SQAaaS assessment with code repository: %s' % repo
+        )
 
     sqaaas_report_json = run_assessment(repo=repo, branch=branch)
     if sqaaas_report_json:
