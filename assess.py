@@ -249,7 +249,7 @@ def get_repo_data(**kwargs):
 
 
 def main(**kwargs):
-    repo, branch = get_repo_data(kwargs)
+    repo, branch = get_repo_data(**kwargs)
 
     sqaaas_report_json = run_assessment(repo=repo, branch=branch)
     if sqaaas_report_json:
