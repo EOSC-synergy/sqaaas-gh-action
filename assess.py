@@ -237,8 +237,21 @@ def write_summary(sqaaas_report_json):
     return summary
 
 
-def main(repo, branch=None):
-    sqaaas_report_json = run_assessment(repo, branch=branch)
+def get_repo_data(**kwargs):
+    repo = kwargs.get('repo', None)
+    branch = kwargs.get('branch', None)
+    if not repo:
+        repo = os.environ['GITHUB_REPOSITORY']
+    if not branch:
+        branch = os.environ['GITHUB_REF_NAME']
+
+    return (repo, branch)
+
+
+def main(**kwargs):
+    repo, branch = get_repo_data(kwargs)
+
+    sqaaas_report_json = run_assessment(repo=repo, branch=branch)
     if sqaaas_report_json:
         logger.info('SQAaaS assessment data obtained. Creating summary..')
         logger.debug(sqaaas_report_json)
@@ -251,4 +264,4 @@ def main(repo, branch=None):
 
 if __name__ == "__main__":
     script, repo, branch = sys.argv
-    main(repo, branch)
+    main(repo=repo, branch=branch)
