@@ -238,20 +238,23 @@ def write_summary(sqaaas_report_json):
 
 
 def get_repo_data(**kwargs):
-    repo = kwargs.get('repo', None)
-    branch = kwargs.get('branch', None)
+    repo = os.environ.get('INPUT_REPO', None)
+    branch = os.environ.get('INPUT_BRANCH', None)
     if not repo:
-        repo = os.environ['GITHUB_REPOSITORY']
+        repo = os.environ.get('GITHUB_REPOSITORY', None)
     if not branch:
-        branch = os.environ['GITHUB_REF_NAME']
+        branch = os.environ.get('GITHUB_REF_NAME', None)
 
     return (repo, branch)
 
 
 def main(**kwargs):
     repo, branch = get_repo_data(**kwargs)
-    print(repo, branch)
-    sys.exit(0)
+    if not repo:
+        logger.error(
+            'Repository URL for the assessment not defined: cannot continue'
+        )
+        sys.exit(1)
 
     sqaaas_report_json = run_assessment(repo=repo, branch=branch)
     if sqaaas_report_json:
