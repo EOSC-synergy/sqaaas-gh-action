@@ -18,6 +18,8 @@ inputs:
 outputs:
   report:
     description: 'JSON payload containing the full QA report'
+  badge_svg:
+    description: 'Badge SVG file'
 runs:
   using: 'docker'
   image: 'Dockerfile'
