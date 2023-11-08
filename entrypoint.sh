@@ -14,4 +14,10 @@ branch=$2
 # echo "" >> $GITHUB_STEP_SUMMARY
 # echo "- Quality assessment report (JSON): $report_url" >> $GITHUB_STEP_SUMMARY
 
-python /usr/bin/assess.py $repo $branch
+# 'outputs' is a newline-separated list of outputs
+#   #1 -> report as a JSON payload
+#   #2 -> path to badge file in SVG format
+outputs=$(python /usr/bin/assess.py $repo $branch)
+IFS=$'\n' read -rd '' -a outputs_array <<<"$outputs"
+echo "report=${outputs_array[0]}" >> $GITHUB_OUTPUT
+echo "badge_svg${outputs_array[1]}" >> $GITHUB_OUTPUT
