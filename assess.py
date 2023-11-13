@@ -178,7 +178,7 @@ def get_summary(sqaaas_report_json):
         assertion = badge_software['data']['openBadgeId']
     except KeyError:
         assertion = None
-    else:
+    finally:
         to_fulfill = []
         next_level_badge = ''
         for badgeclass in ['gold', 'silver', 'bronze']:
