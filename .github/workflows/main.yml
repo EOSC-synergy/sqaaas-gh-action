@@ -12,5 +12,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: SQAaaS action step
-        uses: eosc-synergy/sqaaas-assessment-action@v1
-        id: sqaaas
+        uses: eosc-synergy/sqaaas-assessment-action@release/2.0.0

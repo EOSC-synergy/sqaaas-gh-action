@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: Copyright contributors to the Software Quality Assurance
 SPDX-License-Identifier: GPL-3.0-only
 -->
 
-[![SQAaaS badge shields.io](https://github.com/EOSC-synergy/sqaaas-assessment-action.assess.sqaaas/raw/reshape_inputs/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/sqaaas-assessment-action.assess.sqaaas/reshape_inputs/.report/assessment_output.json)
+[![SQAaaS badge shields.io](https://github.com/EOSC-synergy/sqaaas-assessment-action.assess.sqaaas/raw/release/2.0.0/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/sqaaas-assessment-action.assess.sqaaas/release/2.0.0/.report/assessment_output.json)
 
 # SQAaaS assessment action
 
