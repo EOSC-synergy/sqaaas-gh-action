@@ -18,5 +18,4 @@ branch=$2
 #   #1 -> report as a JSON payload
 #   #2 -> path to badge file in SVG format
 outputs=$(python /usr/bin/assess.py $repo $branch)
-IFS=$'\n' read -rd '' -a outputs_array <<<"$outputs"
-echo "report=${outputs_array[0]}" >> $GITHUB_OUTPUT
+echo "report=${outputs}" >> $GITHUB_OUTPUT
