@@ -12,5 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: SQAaaS action step
-        uses: ./ # Uses an action in the root directory
-        id: sqaaas
+        uses: eosc-synergy/sqaaas-assessment-action@release/2.0.0
+      - name: Clean image cache on README.md
+        uses: wow-actions/purge-readme@v1
