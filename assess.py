@@ -178,30 +178,30 @@ def get_summary(sqaaas_report_json):
         assertion = badge_software['data']['openBadgeId']
     except KeyError:
         assertion = None
-    else:
-        to_fulfill = []
-        next_level_badge = ''
-        for badgeclass in ['gold', 'silver', 'bronze']:
-            missing = badge_software['criteria'][badgeclass]['missing']
-            if not missing:
-                logger.debug(
-                    'Not missing criteria: achieved %s badge' % badgeclass
-                )
-                badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
-                badge_sqaaas_md = badge_share_data['sqaaas'].format(
-                    assertion=assertion
-                )
-                badge_shields_md = badge_share_data['shields'].format(
-                    assertion=assertion
-                )
-                break
-            else:
-                to_fulfill = missing
-                next_level_badge = badgeclass
-                logger.debug(
-                    'Missing criteria found (%s) for %s badge, going one '
-                    'level down' % (to_fulfill, badgeclass)
-                )
+
+    to_fulfill = []
+    next_level_badge = ''
+    for badgeclass in ['gold', 'silver', 'bronze']:
+        missing = badge_software['criteria'][badgeclass]['missing']
+        if not missing:
+            logger.debug(
+                'Not missing criteria: achieved %s badge' % badgeclass
+            )
+            badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
+            badge_sqaaas_md = badge_share_data['sqaaas'].format(
+                assertion=assertion
+            )
+            badge_shields_md = badge_share_data['shields'].format(
+                assertion=assertion
+            )
+            break
+        else:
+            to_fulfill = missing
+            next_level_badge = badgeclass
+            logger.debug(
+                'Missing criteria found (%s) for %s badge, going one '
+                'level down' % (to_fulfill, badgeclass)
+            )
 
     badge_results = {
         'assertion': assertion,
