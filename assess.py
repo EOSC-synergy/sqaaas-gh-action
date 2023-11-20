@@ -35,20 +35,19 @@ LINKS_TO_STANDARD = {
 }
 # FIXME: add as CLI argument
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1"
-BADGE_SHARE_MARKDOWN = {
+SYNERGY_BADGE_MARKDOWN = {
     'gold': {
-        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_gold.png)]({assertion} "SQAaaS gold badge achieved")',
-        'shields': '[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-gold-yellow)]({assertion} "SQAaaS gold badge achieved")'
+        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_gold.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS gold badge achieved")',
     },
     'silver': {
-        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)]({assertion} "SQAaaS silver badge achieved")',
-        'shields': '[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-silver-lightgrey)]({assertion} "SQAaaS silver badge achieved")'
+        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS silver badge achieved")',
     },
     'bronze': {
-        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)]({assertion} "SQAaaS bronze badge achieved")',
-        'shields': '[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-bronze-e6ae77)]({assertion} "SQAaaS bronze badge achieved")'
+        'sqaaas': '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS bronze badge achieved")',
     },
 }
+SHIELDS_BADGE_MARKDOWN = '[![SQAaaS badge shields.io](https://github.com/EOSC-synergy/{repo}.assess.sqaaas/raw/{branch}/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json)'
+
 SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 
 ### Quality criteria summary
@@ -59,12 +58,10 @@ SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 {%- endfor %}
 
 ### Quality badge
-{%- if badge_results.assertion %}
+{%- if badge_results.badge_sqaaas_md %}
  - SQAaaS-based badge: {{ badge_results.badge_sqaaas_md }}
- - shields.io-based badge: {{ badge_results.badge_shields_md }}
-{%- else %}
- - _No SQAaaS badge has been obtained_
 {%- endif %}
+shields.io-based badge: {{ badge_results.badge_shields_md }}
 {%- if badge_results.next_level_badge %}
  - Missing quality criteria for next level badge ({{ badge_results.next_level_badge }}): {% for criterion_to_fulfill in badge_results.to_fulfill %}[`{{ criterion_to_fulfill }}`]({{ links_to_standard[criterion_to_fulfill] }}) {% endfor %}
 {%- endif %}
@@ -174,10 +171,13 @@ def get_summary(sqaaas_report_json):
     # Collect quality badge data
     badge_software = sqaaas_report_json['badge']['software']
     badge_sqaaas_md, badge_shields_md, missing = (None, None, None)
-    try:
-        assertion = badge_software['data']['openBadgeId']
-    except KeyError:
-        assertion = None
+    repo_data = sqaaas_report_json['repository']
+    repo = os.path.basename(repo_data['name']) # just need the last part
+    branch = repo_data['tag']
+    badge_shields_md = SHIELDS_BADGE_MARKDOWN.format(
+        repo=repo,
+        branch=branch
+    )
 
     to_fulfill = []
     next_level_badge = ''
@@ -187,12 +187,10 @@ def get_summary(sqaaas_report_json):
             logger.debug(
                 'Not missing criteria: achieved %s badge' % badgeclass
             )
-            badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
+            badge_share_data = SYNERGY_BADGE_MARKDOWN[badgeclass]
             badge_sqaaas_md = badge_share_data['sqaaas'].format(
-                assertion=assertion
-            )
-            badge_shields_md = badge_share_data['shields'].format(
-                assertion=assertion
+                repo=repo,
+                branch=branch
             )
             break
         else:
@@ -204,7 +202,6 @@ def get_summary(sqaaas_report_json):
             )
 
     badge_results = {
-        'assertion': assertion,
         'badge_sqaaas_md': badge_sqaaas_md,
         'badge_shields_md': badge_shields_md,
         'to_fulfill': to_fulfill,
