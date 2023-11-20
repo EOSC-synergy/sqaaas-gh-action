@@ -178,30 +178,30 @@ def get_summary(sqaaas_report_json):
         assertion = badge_software['data']['openBadgeId']
     except KeyError:
         assertion = None
-    finally:
-        to_fulfill = []
-        next_level_badge = ''
-        for badgeclass in ['gold', 'silver', 'bronze']:
-            missing = badge_software['criteria'][badgeclass]['missing']
-            if not missing:
-                logger.debug(
-                    'Not missing criteria: achieved %s badge' % badgeclass
-                )
-                badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
-                badge_sqaaas_md = badge_share_data['sqaaas'].format(
-                    assertion=assertion
-                )
-                badge_shields_md = badge_share_data['shields'].format(
-                    assertion=assertion
-                )
-                break
-            else:
-                to_fulfill = missing
-                next_level_badge = badgeclass
-                logger.debug(
-                    'Missing criteria found (%s) for %s badge, going one '
-                    'level down' % (to_fulfill, badgeclass)
-                )
+
+    to_fulfill = []
+    next_level_badge = ''
+    for badgeclass in ['gold', 'silver', 'bronze']:
+        missing = badge_software['criteria'][badgeclass]['missing']
+        if not missing:
+            logger.debug(
+                'Not missing criteria: achieved %s badge' % badgeclass
+            )
+            badge_share_data = BADGE_SHARE_MARKDOWN[badgeclass]
+            badge_sqaaas_md = badge_share_data['sqaaas'].format(
+                assertion=assertion
+            )
+            badge_shields_md = badge_share_data['shields'].format(
+                assertion=assertion
+            )
+            break
+        else:
+            to_fulfill = missing
+            next_level_badge = badgeclass
+            logger.debug(
+                'Missing criteria found (%s) for %s badge, going one '
+                'level down' % (to_fulfill, badgeclass)
+            )
 
     badge_results = {
         'assertion': assertion,
@@ -237,8 +237,32 @@ def write_summary(sqaaas_report_json):
     return summary
 
 
-def main(repo, branch=None):
-    sqaaas_report_json = run_assessment(repo, branch=branch)
+def get_repo_data():
+    repo = os.environ.get('INPUT_REPO', None)
+    branch = os.environ.get('INPUT_BRANCH', None)
+    if not repo:
+        repo = os.environ.get('GITHUB_REPOSITORY', None)
+        if repo:
+            repo = os.path.join('https://github.com', repo)
+    if not branch:
+        branch = os.environ.get('GITHUB_REF_NAME', None)
+
+    return (repo, branch)
+
+
+def main():
+    repo, branch = get_repo_data()
+    if not repo:
+        logger.error(
+            'Repository URL for the assessment not defined: cannot continue'
+        )
+        sys.exit(1)
+    else:
+        logger.info(
+            'Trigger SQAaaS assessment with code repository: %s' % repo
+        )
+
+    sqaaas_report_json = run_assessment(repo=repo, branch=branch)
     if sqaaas_report_json:
         logger.info('SQAaaS assessment data obtained. Creating summary..')
         logger.debug(sqaaas_report_json)
@@ -250,5 +274,4 @@ def main(repo, branch=None):
 
 
 if __name__ == "__main__":
-    script, repo, branch = sys.argv
-    main(repo, branch)
+    main()
