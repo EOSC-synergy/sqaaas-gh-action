@@ -69,3 +69,5 @@ so e.g.:
 ```markdown
 [![SQAaaS badge shields.io](https://github.com/EOSC-synergy/sqaaas-assessment-action.assess.sqaaas/raw/main/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/sqaaas-assessment-action.assess.sqaaas/main/.report/assessment_output.json)
 ```
+
+**Note**: as the SQAaaS status badges are stored in GitHub repositories, they are not immediately refreshed upon changes in the progress of the quality assessment (GitHub currently sets a `Cache-Control` of 300 seconds). 
