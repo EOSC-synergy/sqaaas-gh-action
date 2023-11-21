@@ -260,9 +260,13 @@ def get_custom_steps():
                 logger.error(
                     'Step workflow definition not found: %s' % step_name
                 )
+                print(
+                    '#################333 Step workflow definition not found: %s' % step_name
+                )
                 steps_not_found.append(step_name)
             else:
                 logger.debug('Step workflow found: %s' % step_name)
+                print('>>>>>>>>>>>>>>>> Step workflow found: %s' % step_name)
 
     if steps_not_found:
         logger.info(
@@ -302,4 +306,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    print(get_custom_steps())
+    # main()
