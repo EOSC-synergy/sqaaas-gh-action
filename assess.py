@@ -12,7 +12,7 @@ import time
 
 
 logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger('sqaaas-gh-action')
+logger = logging.getLogger('sqaaas-assessment-action')
 
 COMPLETED_STATUS = ['SUCCESS', 'FAILURE', 'UNSTABLE', 'ABORTED']
 SUCCESFUL_STATUS = ['SUCCESS', 'UNSTABLE']
