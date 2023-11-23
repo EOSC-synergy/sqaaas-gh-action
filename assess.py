@@ -71,7 +71,7 @@ shields.io-based badge: {{ badge_results.badge_shields_md }}
 
 
 def create_payload(repo, branch=None, step_tools=[]):
-    payload = json.dumps({
+    payload = {
         'repo_code': {
             'repo': repo,
             'branch': branch,
@@ -80,13 +80,14 @@ def create_payload(repo, branch=None, step_tools=[]):
             'repo': repo,
             'branch': branch
         }
-    })
+    }
     if step_tools:
-        payload['criteria_workflow'] = {
+        payload['criteria_workflow'] = [{
+            'id': 'QC.Uni', #FIXME hardcode it for the time being
             'tools': step_tools
-        }
+        }]
 
-    return payload
+    return json.dumps(payload)
 
 
 def sqaaas_request(method, path, payload={}):
