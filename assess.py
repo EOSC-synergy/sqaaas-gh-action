@@ -86,6 +86,7 @@ def create_payload(repo, branch=None, step_tools=[]):
             'id': 'QC.Uni', #FIXME hardcode it for the time being
             'tools': step_tools
         }]
+    logger.debug('Payload for triggering SQAaaS assessment: %s' % payload)
 
     return json.dumps(payload)
 
