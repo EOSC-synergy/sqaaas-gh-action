@@ -75,10 +75,6 @@ def create_payload(repo, branch=None, step_tools=[]):
         'repo_code': {
             'repo': repo,
             'branch': branch,
-        },
-        'repo_docs': {
-            'repo': None,
-            'branch': None
         }
     }
     if step_tools:
