@@ -15,7 +15,7 @@ inputs:
   branch:
     description: Branch of the repository (defaults to branch that triggered the build)
     required: false
-  workflow:
+  steps:
     description: list of steps composed with sqaaas-step-action
     required: false
 outputs:
@@ -27,4 +27,4 @@ runs:
   args:
     - ${{ inputs.repo }}
     - ${{ inputs.branch }}
-    - ${{ inputs.workflow }}
+    - ${{ inputs.steps }}
