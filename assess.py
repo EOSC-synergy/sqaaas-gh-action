@@ -241,12 +241,15 @@ def write_summary(sqaaas_report_json):
 def get_repo_data():
     repo = os.environ.get('INPUT_REPO', None)
     branch = os.environ.get('INPUT_BRANCH', None)
-    if not repo:
+    if repo:
+        logger.info('Not assessing current repository: %s' % repo)
+    else:
+        logger.debug('Assessing current repository: %s' % repo)
         repo = os.environ.get('GITHUB_REPOSITORY', None)
         if repo:
             repo = os.path.join('https://github.com', repo)
-    if not branch:
-        branch = os.environ.get('GITHUB_REF_NAME', None)
+        if not branch:
+            branch = os.environ.get('GITHUB_REF_NAME', None)
 
     return (repo, branch)
 
