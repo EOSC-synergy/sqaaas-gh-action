@@ -131,6 +131,7 @@ def run_assessment(repo, branch=None, step_tools=[]):
         logger.info(f'Performing {action} on pipeline {pipeline_id}')
         if action in ['create']:
             payload = json.loads(create_payload(repo, branch, step_tools))
+            logging.debug('Using payload: %s' % payload)
             response = sqaaas_request('post', f'pipeline/assessment', payload=payload)
             response_data = response.json()
             pipeline_id = response_data['id']
