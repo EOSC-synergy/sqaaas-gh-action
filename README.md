@@ -22,6 +22,11 @@ The URL of the repository to assess.
 
 The branch to fetch from the previous repository name. If a branch is not provided, the SQAaaS platform takes the default one.
 
+### `qc_uni_steps`
+
+Space-separated list of step identifiers (defined with the [sqaaas-step-action](https://github.com/eosc-synergy/sqaaas-step-action))
+that take part in the assessment of the unit testing quality criterion.
+
 ## Outputs
 
 ### `report`

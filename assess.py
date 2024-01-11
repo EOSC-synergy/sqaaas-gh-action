@@ -255,7 +255,7 @@ def get_repo_data():
 
 
 def get_custom_steps():
-    step_workflows = os.environ.get('INPUT_STEPS', None)
+    step_workflows = os.environ.get('INPUT_QC_UNI_STEPS', None)
     step_names = step_workflows.split()
     step_tools = []
     if step_workflows:

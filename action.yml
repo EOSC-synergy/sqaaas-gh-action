@@ -15,8 +15,8 @@ inputs:
   branch:
     description: Branch of the repository (defaults to branch that triggered the build)
     required: false
-  steps:
-    description: list of steps composed with sqaaas-step-action
+  qc_uni_steps:
+    description: space-separated list of steps for unit testing (QC.Uni) quality criterion (composed with sqaaas-step-action)
     required: false
 outputs:
   report:
@@ -27,4 +27,4 @@ runs:
   args:
     - ${{ inputs.repo }}
     - ${{ inputs.branch }}
-    - ${{ inputs.steps }}
+    - ${{ inputs.qc_uni_steps }}
