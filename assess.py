@@ -78,10 +78,12 @@ def create_payload(repo, branch=None, step_tools=[]):
         }
     }
     if step_tools:
-        payload['criteria_workflow'] = [{
-            'id': 'QC.Uni', #FIXME hardcode it for the time being
-            'tools': step_tools
-        }]
+        for criterion, step_tools in step_tools.items():
+            payload['criteria_workflow'] = [{
+                'id': criterion,
+                'tools': step_tools
+            }]
+            break # FIXME: only interested in the first one, i.e. QC.Uni
     logger.debug('Payload for triggering SQAaaS assessment: %s' % payload)
 
     return json.dumps(payload)
@@ -255,6 +257,7 @@ def get_repo_data():
 
 
 def get_custom_steps():
+    # QC.Uni
     step_workflows = os.environ.get('INPUT_QC_UNI_STEPS', None)
     step_names = step_workflows.split()
     step_tools = []
@@ -270,7 +273,9 @@ def get_custom_steps():
             with open(_step_payload_file, 'r') as f:
                 step_tools.append(json.load(f))
 
-    return step_tools
+    return {
+        'QC.Uni': step_tools
+    }
 
 
 def main():
