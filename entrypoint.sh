@@ -19,4 +19,6 @@ qc_uni_steps=$3
 #   #1 -> report as a JSON payload
 #   #2 -> path to badge file in SVG format
 outputs=$(python /usr/bin/assess.py $repo $branch $qc_uni_steps)
+exit_status=$?
 echo "report=${outputs}" >> $GITHUB_OUTPUT
+exit $exit_status
