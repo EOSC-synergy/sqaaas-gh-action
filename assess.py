@@ -258,8 +258,9 @@ def get_repo_data():
 
 
 def get_custom_steps():
+    custom_steps = {}
     # QC.Uni
-    step_workflows = os.environ.get('INPUT_QC_UNI_STEPS', None)
+    step_workflows = os.environ.get('INPUT_QC_UNI_STEPS', '')
     step_names = step_workflows.split()
     step_tools = []
     if step_workflows:
@@ -274,10 +275,11 @@ def get_custom_steps():
             with open(_step_payload_file, 'r') as f:
                 step_tools.append(json.load(f))
 
-    return {
-        'QC.Uni': step_tools
-    }
+        custom_steps = {
+            'QC.Uni': step_tools
+        }
 
+    return custom_steps
 
 def main():
     repo, branch = get_repo_data()
