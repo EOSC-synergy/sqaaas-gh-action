@@ -10,6 +10,6 @@ jobs:
     name: Job that triggers SQAaaS platform
     steps:
       - name: SQAaaS action step
-        uses: eosc-synergy/sqaaas-assessment-action@v2
-      - name: Clean image cache on README.md
-        uses: wow-actions/purge-readme@v1
+        uses: eosc-synergy/sqaaas-assessment-action@feature/criteria_workflows
+          # - name: Clean image cache on README.md
+          #   uses: wow-actions/purge-readme@v1
