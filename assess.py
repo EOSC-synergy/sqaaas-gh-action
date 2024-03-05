@@ -175,7 +175,7 @@ def get_summary(sqaaas_report_json):
     # Collect quality badge data
     badge_software = sqaaas_report_json['badge']['software']
     badge_sqaaas_md, badge_shields_md, missing = (None, None, None)
-    repo_data = sqaaas_report_json['repository']
+    repo_data = sqaaas_report_json['repository'][0] # NOTE: temporarily use first element
     repo = os.path.basename(repo_data['name']) # just need the last part
     branch = repo_data['tag']
     badge_shields_md = SHIELDS_BADGE_MARKDOWN.format(
