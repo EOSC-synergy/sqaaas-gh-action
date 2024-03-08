@@ -56,6 +56,24 @@ with:
   branch: 'main'
 ```
 
+If you want to add a customised step made through the [sqaaas-step-action](https://github.com/eosc-synergy/sqaaas-step-action) use:
+
+```yaml
+uses: eosc-synergy/sqaaas-assessment-action@v2
+with:
+  qc_uni_steps: tox_unit_step
+```
+
+For this latter case the definiton for the customised step could be similar to (note that step's `name` has to match the value of `qc_uni_steps`):
+
+```yaml
+uses: eosc-synergy/sqaaas-step-action@v1
+with:
+  name: tox_unit_step
+  tool: tox
+  tox_env: run_unit
+```
+
 ## Report summary
 
 This action provides a summary of the SQAaaS assessment report, as well as the link to the complete version of it:
