@@ -6,6 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only
 -->
 
 [![SQAaaS badge shields.io](https://github.com/EOSC-synergy/sqaaas-assessment-action.assess.sqaaas/raw/release/2.0.0/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/sqaaas-assessment-action.assess.sqaaas/release/2.0.0/.report/assessment_output.json)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![REUSE status](https://api.reuse.software/badge/git.fsfe.org/reuse/api)](https://api.reuse.software/info/git.fsfe.org/reuse/api)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # SQAaaS assessment action
 
@@ -51,6 +54,24 @@ uses: eosc-synergy/sqaaas-assessment-action@v2
 with:
   repo: 'https://github.com/eosc-synergy/sqaaas-assessment-action'
   branch: 'main'
+```
+
+If you want to add a customised step made through the [sqaaas-step-action](https://github.com/eosc-synergy/sqaaas-step-action) use:
+
+```yaml
+uses: eosc-synergy/sqaaas-assessment-action@v2
+with:
+  qc_uni_steps: tox_unit_step
+```
+
+For this latter case the definiton for the customised step could be similar to (note that step's `name` has to match the value of `qc_uni_steps`):
+
+```yaml
+uses: eosc-synergy/sqaaas-step-action@v1
+with:
+  name: tox_unit_step
+  tool: tox
+  tox_env: run_unit
 ```
 
 ## Report summary
