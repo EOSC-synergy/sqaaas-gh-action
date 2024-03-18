@@ -17,9 +17,9 @@ jobs:
           container: drakorgaur/oclint:3077181575
           commands: |
             oclint sample.cpp -- -c
-            # - name: SQAaaS assessment
-            #   uses: eosc-synergy/sqaaas-assessment-action@v2
-            #   with:
-            #     repo: https://github.com/redxdev/ECS
+      - name: SQAaaS assessment
+        uses: eosc-synergy/sqaaas-assessment-action@v2
+        with:
+          repo: https://github.com/redxdev/ECS
             #     # - name: Clean image cache on README.md
             #     #   uses: wow-actions/purge-readme@v1
