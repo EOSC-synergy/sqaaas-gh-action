@@ -15,10 +15,15 @@ jobs:
     steps:
       - name: print environment
         run: |
-          echo "GITHUB_REF: $GITHUB_REF"
-          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
-          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "BRANCH: $GITHUB_HEAD_REF"
+          # echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          # echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+          # echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+        if: github.event_name == 'pull_request'
+      - name: print environment
+        run: |
+          echo "BRANCH: $GITHUB_REF_NAME"
+        if: github.event_name != 'pull_request'
             # - name: SQAaaS action step
             #   uses: eosc-synergy/sqaaas-assessment-action@v2
             #     # - name: Clean image cache on README.md
