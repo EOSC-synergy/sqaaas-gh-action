@@ -250,7 +250,15 @@ def get_repo_data():
         if repo:
             repo = os.path.join("https://github.com", repo)
         if not branch:
-            branch = os.environ.get("GITHUB_REF_NAME", "")
+            event_name = os.environ.get("GITHUB_EVENT_NAME")
+            if event_name in ["pull_request"]:
+                logger.debug(
+                    "Getting branch name from GITHUB_HEAD_REF as it was triggered by a pull request"
+                )
+                branch = os.environ.get("GITHUB_HEAD_REF", "")
+            else:
+                logger.debug("Getting branch name from GITHUB_REF_NAME")
+                branch = os.environ.get("GITHUB_REF_NAME", "")
 
     return (repo, branch)
 
