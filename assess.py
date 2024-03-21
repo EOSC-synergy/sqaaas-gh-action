@@ -279,7 +279,7 @@ def get_custom_steps():
 
 
 def main():
-    print(os.environ)a
+    print(os.environ)
     import sys
     sys.exit(0)
     repo, branch = get_repo_data()
