@@ -279,6 +279,9 @@ def get_custom_steps():
 
 
 def main():
+    print(os.environ)a
+    import sys
+    sys.exit(0)
     repo, branch = get_repo_data()
     if not repo:
         logger.error(

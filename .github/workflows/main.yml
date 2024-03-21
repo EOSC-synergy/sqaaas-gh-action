@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
-on: [push]
+on:
+  push:
+    branches: [main, test/github_ref]
+  pull_request:
+    branches: [main, test/github_ref]
 
 jobs:
   sqaaas_job:
