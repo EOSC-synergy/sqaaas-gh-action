@@ -18,6 +18,8 @@ jobs:
       - name: SQAaaS action step
         uses: eosc-synergy/sqaaas-assessment-action@v2
         with:
+          repo: https://github.com/grycap/im
+          branch: sqa
           qc_uni_steps: tox_unit_test
           # - name: Clean image cache on README.md
           #   uses: wow-actions/purge-readme@v1
