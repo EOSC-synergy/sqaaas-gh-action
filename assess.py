@@ -305,6 +305,17 @@ def main():
     if sqaaas_report_json:
         logger.info("SQAaaS assessment data obtained. Creating summary..")
         logger.debug(sqaaas_report_json)
+        # Dump to file
+        github_workspace = os.environ["GITHUB_WORKSPACE"]
+        report_file = os.environ.get("INPUT_REPORT_FILE_JSON", "sqaaas.json")
+        report_file_abspath = os.path.join(github_workspace, report_file)
+        with open(report_file_abspath, "w", encoding="utf-8") as f:
+            json.dump(sqaaas_report_json, f, ensure_ascii=False, indent=4)
+        logger.info(
+            "SQAaaS assessment report (JSON format) dumped to file: %s"
+            % report_file_abspath
+        )
+        # Create summary
         summary = write_summary(sqaaas_report_json)
         if summary:
             logger.debug(summary)
