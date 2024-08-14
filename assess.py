@@ -38,16 +38,16 @@ LINKS_TO_STANDARD = {
 ENDPOINT = "https://api-staging.sqaaas.eosc-synergy.eu/v1"
 SYNERGY_BADGE_MARKDOWN = {
     "gold": {
-        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_gold.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS gold badge achieved")',
+        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_gold.png)](https://sqaaas.eosc-synergy.eu/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS gold badge achieved")',
     },
     "silver": {
-        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS silver badge achieved")',
+        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://sqaaas.eosc-synergy.eu/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS silver badge achieved")',
     },
     "bronze": {
-        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS bronze badge achieved")',
+        "sqaaas": '[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_bronze.png)](https://sqaaas.eosc-synergy.eu/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json "SQAaaS bronze badge achieved")',
     },
 }
-SHIELDS_BADGE_MARKDOWN = "[![SQAaaS badge shields.io](https://github.com/EOSC-synergy/{repo}.assess.sqaaas/raw/{branch}/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/#/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json)"
+SHIELDS_BADGE_MARKDOWN = "[![SQAaaS badge shields.io](https://github.com/EOSC-synergy/{repo}.assess.sqaaas/raw/{branch}/.badge/status_shields.svg)](https://sqaaas.eosc-synergy.eu/full-assessment/report/https://raw.githubusercontent.com/eosc-synergy/{repo}.assess.sqaaas/{branch}/.report/assessment_output.json)"
 
 SUMMARY_TEMPLATE = """## SQAaaS results :bellhop_bell:
 
@@ -212,7 +212,7 @@ def get_summary(sqaaas_report_json):
     }
     full_report_url = "/".join(
         [
-            "https://sqaaas.eosc-synergy.eu/#/full-assessment/report",
+            "https://sqaaas.eosc-synergy.eu/full-assessment/report",
             sqaaas_report_json["meta"]["report_json_url"],
         ]
     )
